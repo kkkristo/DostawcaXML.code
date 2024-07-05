@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - DostawcaXML</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/DostawcaXML.styles.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        
+            <div class="container-fluid">
+                <div class="row text-center col-12 mt-3">
+                    <p class="mili-32 mili-b">DostawcaXML 1.0</p>
+                    <div class=" ">
+                        <a class="btn btn-outline-warning text-dark" asp-area="" asp-controller="Home" asp-action="Index"><span class="mili-b mili-18">Home</span></a>
+
+                        <a class="btn btn-outline-warning text-dark" asp-area="" asp-controller="Home" asp-action="Import"><span class="mili mili-18"><strong>1. Upload</strong> XML file</span></a>
+
+                        <a class="btn btn-outline-warning text-dark" asp-area="" asp-controller="Home" asp-action="DisplayUploaded"><span class="mili mili-18"><strong>2. Display </strong> from uploaded XML </span></a>
+
+                        <a class="btn btn-outline-warning text-dark" asp-area="" asp-controller="Home" asp-action="DownloadMerged"><span class="mili mili-18"><strong>3. Download</strong> merged offers</span></a>
+                    </div>
+                </div>
+               
+            </div>
+     
+    </header>
+    <div class="container-fluid" style="width: 100vw;">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container-fluid">
+            <div class="row text-center mili">
+                <div>
+                    &copy; 2024 - DostawcaXML - Made by KrzySzko
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+   
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,165 @@
+﻿@using System.Xml.Linq
+@using DostawcaXML.Statics
+@model IEnumerable<XElement>
+
+<table class="table table-bordered table-striped    ">
+    <thead>
+    <tr>
+
+        <th>Action</th>
+        <th>@SD.modelXml.SourceFileName.ToString()</th>
+        <th>@SD.modelXml.Id.ToString()</th>
+        <th>@SD.modelXml.Name.ToString()</th>
+        <th>@SD.modelXml.Size.ToString()</th>
+        <th>@SD.modelXml.Categories.ToString()</th>
+        <th class="col-4">@SD.modelXml.Description.ToString()</th>
+        <th>@SD.modelXml.Quantity.ToString()</th>
+        <th>@SD.modelXml.Images.ToString()</th>
+        <th>@SD.modelXml.Accepted.ToString()</th>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var prod in Model.ToList())
+        {
+            <tr>
+                
+                <td>
+                    <strong>@prod.Element(SD.modelXml.SourceFileName.ToString()).Value.ToUpper()</strong>
+                </td>
+                <td>
+                    @prod.Element(SD.modelXml.Id.ToString()).Value
+                </td>
+                <td>
+                    @prod.Element(SD.modelXml.Name.ToString()).Value
+                </td>
+                <td>
+                    @if (!prod.Element(SD.modelXml.Size.ToString()).IsEmpty)
+                    {
+                        <p>@prod.Element(SD.modelXml.Size.ToString()).Value</p>
+                    }
+                    else
+                    {
+                        <p>no info...</p>
+                    }
+                </td>
+                <td>
+                    @if (prod.Descendants(SD.modelXml.Category.ToString()).Count() > 0)
+                    {
+                        @foreach (var cat in @prod.Descendants(SD.modelXml.Category.ToString()))
+                        {
+                            <p>- @cat.Value</p>
+                        }
+                    }
+                    else
+                    {
+                        <p>no info...</p>
+                    }
+                </td>
+                <td class="col-4">
+                    @if (!prod.Element(SD.modelXml.Description.ToString()).IsEmpty)
+                    {
+                        @Html.Raw(prod.Element(SD.modelXml.Description.ToString()).Value)
+                    }
+                    else
+                    {
+                        <p>no info...</p>
+                    }
+                </td>
+                <td>
+                    @if (!prod.Element(SD.modelXml.Quantity.ToString()).IsEmpty)
+                    {
+                        <p>Quantity: @prod.Element(SD.modelXml.Quantity.ToString()).Value</p>
+                    }
+                    else
+                    {
+                        <p>no info...</p>
+                    }
+                </td>
+                <td>
+                    @if (prod.Descendants(SD.modelXml.Image.ToString()).Count() > 0)
+                    {
+                        @foreach (var img in prod.Descendants(SD.modelXml.Image.ToString()))
+                        {
+                            <p><a href="@img.Value"><img src="@Html.Raw(img.Value)" width="100" style="border: 1px solid grey" /></a></p>
+                        }
+                    }
+                    else
+                    {
+                        <p>no images</p>
+                    }
+                </td>
+                <td>
+                    
+                    @prod.Element(SD.modelXml.Accepted.ToString()).Value; 
+                    @{
+                        int index = Model.ToList().IndexOf(prod);
+                    }
+                    
+                </td>
+
+
+            </tr>
+
+        }
+
+
+    </tbody>
+</table>
+@* 
+@foreach (var prod in Model)
+{
+    <p><strong>@prod.Element(SD.modelXml.SourceFileName.ToString()).Value.ToUpper()</strong></p>
+    <p>Product id by supplier: @prod.Element(SD.modelXml.Id.ToString()).Value</p>
+    <p>Name: @prod.Element(SD.modelXml.Name.ToString()).Value</p>
+    <p>Size or Size Code:</p>
+        @if (prod.Element(SD.modelXml.Size.ToString()) != null)
+        {
+           <p>@prod.Element(SD.modelXml.Size.ToString()).Value</p>
+        }
+        else
+        {
+            <p></p>
+        }
+
+    <p>@prod.Element(SD.modelXml.Categories.ToString()).Value:</p>    
+    @if (prod.Descendants(SD.modelXml.Category.ToString()).Count() > 0)
+    {
+        @foreach (var cat in @prod.Descendants(SD.modelXml.Category.ToString()))
+        {
+            <p>- @cat.Value</p>
+        }
+    }
+
+    <p>Description:</p>
+    
+    @if (prod.Element(SD.modelXml.Description.ToString()) != null)
+    {
+        @Html.Raw(prod.Element(SD.modelXml.Description.ToString()).Value)
+    }
+    else
+    {
+        <p></p>
+    }
+
+    @if (prod.Element(SD.modelXml.Quantity.ToString()) != null){
+    <p>Quantity: @prod.Element(SD.modelXml.Quantity.ToString()).Value</p>
+    }
+    else
+    {
+        <p></p>
+    }
+
+    @if (prod.Descendants(SD.modelXml.Image.ToString()).Count() > 0)
+    {
+        @foreach (var img in prod.Descendants(SD.modelXml.Image.ToString()))
+        {
+            <p><a href="@img.Value"><img src="@Html.Raw(img.Value)" width="100" style="border: 1px solid grey" /></a></p>
+        }
+    }
+    else
+    {
+        <p>no images</p>
+    }
+    <p>.............................</p>
+
+} *@

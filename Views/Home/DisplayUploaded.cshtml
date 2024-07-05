@@ -1,0 +1,112 @@
+﻿@using System.Xml.Linq
+@using DostawcaXML.Statics
+@model IEnumerable<ProductDTO>
+
+
+    <p class="mt-3 mili-18 mili-m text-center"><span class="mili-t">INFO: </span>Download to save changes</p>
+
+<table class="table table-bordered table-striped mt-3">
+    <thead>
+    <tr class="mili">
+        <th>Action</th>
+        <th>@SD.modelXml.SourceFileName.ToString()</th>
+        <th>@SD.modelXml.Id.ToString()</th>
+        <th width="200px">@SD.modelXml.Name.ToString()</th>
+        <th>@SD.modelXml.Size.ToString() or suppliers size code </th>
+        <th>@SD.modelXml.Categories.ToString()</th>
+        <th class="col-4">@SD.modelXml.Description.ToString()</th>
+        <th>@SD.modelXml.Quantity.ToString()</th>
+        <th>@SD.modelXml.Images.ToString()</th>
+        <th>@SD.modelXml.Accepted.ToString()</th>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var prod in Model)
+        {
+            <tr>
+                <td>
+                    @{
+                        var index = Model.ToList().IndexOf(prod);
+                    }
+                    <a asp-action="DeleteEntryFromDisplay" asp-route-index="@index">Delete</a>
+
+                </td>
+                <td>
+                    <strong>@prod.SourceFileName.ToUpper()</strong>
+                </td>
+                <td>
+                    @prod.Id
+                </td>
+                <td width="200px">
+                    @prod.Name
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(prod.Size))
+                    {
+                        <p>@prod.Size</p>
+                    }
+                    else
+                    {
+                        <p>no info...</p>
+                    }
+                </td>
+                <td>
+                    @if (prod.Categories.Count > 0)
+                    {
+                        @foreach (var cat in prod.Categories)
+                        {
+                            <p>- @cat</p>
+                        }
+                    }
+                    else
+                    {
+                        <p>no info...</p>
+                    }
+                </td>
+                <td class="col-4">
+                    @if (!string.IsNullOrEmpty(prod.Description))
+                    {
+                        @Html.Raw(prod.Description)
+                    }
+                    else
+                    {
+                        <p>no info...</p>
+                    }
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(prod.Quantity))
+                    {
+                        <p>@prod.Quantity</p>
+                    }
+                    else
+                    {
+                        <p>no info...</p>
+                    }
+                </td>
+                <td>
+                    @if (prod.Images.Count > 0)
+                    {
+                        @foreach (var img in prod.Images)
+                        {
+                            <p><a href="@img"><img src="@Html.Raw(img)" width="100" style="border: 1px solid grey" /></a></p>
+                        }
+                    }
+                    else
+                    {
+                        <p>no images</p>
+                    }
+                </td>
+                <td>
+                    @prod.Accepted<br />
+                    <a asp-action="ChangeAcceptation" asp-route-index="@index">Accept / Reject</a><br />
+                    @if (prod.Accepted)
+                    {
+                        <img src="/images/yes.svg" width="45">
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
